@@ -1,0 +1,11 @@
+{
+  "name": "EuskadiOposiciones",
+  "short_name": "EuskadiOposiciones",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f8fb",
+  "theme_color": "#0e6b62",
+  "icons": [
+    {"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
