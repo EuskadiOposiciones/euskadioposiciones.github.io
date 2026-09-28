@@ -1,0 +1,67 @@
+name: One-shot public cleanup
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Clean public copy and docs
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p=Path("index.html")
+          text=p.read_text(encoding="utf-8")
+          replacements=[
+            (
+              "No intentamos cubrir todas las oposiciones. Preferimos trabajar menos procesos con más profundidad y dejar claro qué recursos y qué app existen en cada uno.",
+              "Actualmente ofrecemos cobertura específica de Osakidetza y UPV/EHU, con recursos adaptados a cada proceso y acceso claro a las herramientas disponibles."
+            ),
+            (
+              "<h2>La web debe enseñarte cómo trabajamos las respuestas.</h2><p>La app vende comodidad, repetición y seguimiento. La web puede demostrar antes el criterio editorial y la trazabilidad.</p>",
+              "<h2>Comprueba cómo revisamos las respuestas.</h2><p>En la web puedes consultar el criterio editorial, las fuentes y las correcciones antes de pasar a la práctica en la app.</p>"
+            )
+          ]
+          for old,new in replacements:
+              if old not in text:
+                  raise SystemExit("No se encontró un texto esperado en index.html")
+              text=text.replace(old,new)
+          p.write_text(text,encoding="utf-8")
+
+          Path("README.md").write_text(
+            "# EuskadiOposiciones\n\n"
+            "Sitio público de información y preparación de oposiciones en Euskadi.\n\n"
+            "- Web: https://euskadioposiciones.com/\n"
+            "- OPE Osakidetza: https://euskadioposiciones.com/opeosakidetza/\n"
+            "- UPV/EHU: https://euskadioposiciones.com/upvehuoposicionesbateria/\n\n"
+            "Proyecto independiente. Las fuentes oficiales de cada Administración prevalecen siempre.\n",
+            encoding="utf-8"
+          )
+
+          Path("README_DEPLOY.md").unlink(missing_ok=True)
+          Path(".github/workflows/cleanup-public.yml").unlink()
+
+      - name: Verify
+        shell: bash
+        run: |
+          ! grep -R "La app vende comodidad" -n index.html
+          ! grep -R "No intentamos cubrir todas las oposiciones" -n index.html
+          test ! -e README_DEPLOY.md
+
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Clean public copy and remove internal deploy notes"
+          git push origin main
