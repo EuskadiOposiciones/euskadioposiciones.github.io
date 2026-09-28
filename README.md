@@ -1,11 +1,9 @@
-# EuskadiOposiciones HOME V1.6
+# EuskadiOposiciones
 
-Actualización 28/09/2026.
+Sitio público de información y preparación de oposiciones en Euskadi.
 
-- UPV/EHU Administrativo: app ya publicada; desaparecen mensajes de pre-lanzamiento.
-- Portada como hub claro entre Osakidetza y UPV/EHU.
-- Apps presentadas como producto: cobertura, prueba, captura real y Google Play.
-- QR en escritorio.
-- Muestra visible de revisión de respuestas.
-- PostHog cookieless y UTM en enlaces a Play.
-- Se conserva la especialización; no se intenta replicar un portal generalista con cientos de páginas.
+- Web: https://euskadioposiciones.com/
+- OPE Osakidetza: https://euskadioposiciones.com/opeosakidetza/
+- UPV/EHU: https://euskadioposiciones.com/upvehuoposicionesbateria/
+
+Proyecto independiente. Las fuentes oficiales de cada Administración prevalecen siempre.
