@@ -1,16 +1,10 @@
-(function () {
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.getElementById('nav-main');
-  if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      const open = nav.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        nav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
+(function(){
+const toggle=document.querySelector('.nav-toggle'),nav=document.getElementById('nav-main');
+if(toggle&&nav){toggle.addEventListener('click',()=>{const o=nav.classList.toggle('is-open');toggle.setAttribute('aria-expanded',o?'true':'false')});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('is-open')))}
+document.querySelectorAll('a[href*="play.google.com/store/apps/details"]').forEach((a,i)=>{try{const u=new URL(a.href);const id=u.searchParams.get('id');u.searchParams.set('utm_source','euskadioposiciones');u.searchParams.set('utm_medium','website');u.searchParams.set('utm_campaign',id==='com.jocyf.opeupvehuadministrativo'?'home_ehu':id==='com.jocyf.opeosakidetzabateria'?'home_osakidetza':'home');u.searchParams.set('utm_content',(a.dataset.ctaPosition||'link')+'_'+(i+1));a.href=u.toString()}catch(_){}})
+const TOKEN='phc_nyXj9NDnjEt7ngcrAuSZT8jPN9mkqW5ySCBNtLp6SMWH',API='https://eu.i.posthog.com',UI='https://eu.posthog.com';
+function capture(n,p){if(window.posthog&&typeof window.posthog.capture==='function')window.posthog.capture(n,Object.assign({product:'general',page_path:location.pathname,page_title:document.title},p||{}))}
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog&&window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split('.');2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}p||((p=t.createElement('script')).type='text/javascript',p.crossOrigin='anonymous',p.async=!0,p.src=s.api_host.replace('.i.posthog.com','-assets.i.posthog.com')+'/static/array.js',(r=t.getElementsByTagName('script')[0]).parentNode.insertBefore(p,r));var u=e;for(void 0!==a?u=e[a]=[]:a='posthog',u.people=u.people||[],o='init capture'.split(' '),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+window.posthog.init(TOKEN,{api_host:API,ui_host:UI,defaults:'2026-05-30',cookieless_mode:'always',person_profiles:'never',autocapture:false,capture_pageview:false,capture_pageleave:true,disable_session_recording:true,respect_dnt:true});capture('$pageview');
+document.addEventListener('click',e=>{const a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a)return;let u;try{u=new URL(a.href,location.href)}catch(_){return}if(u.hostname==='play.google.com')capture('google_play_clicked',{product_target:a.dataset.product||'unknown'});else if(u.hostname===location.hostname&&u.pathname.startsWith('/opeosakidetza/'))capture('vertical_link_clicked',{vertical:'osakidetza'});else if(u.hostname===location.hostname&&u.pathname.startsWith('/upvehuoposicionesbateria/'))capture('vertical_link_clicked',{vertical:'ehu'})},{passive:true});
 })();
